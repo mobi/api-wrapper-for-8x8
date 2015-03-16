@@ -5,10 +5,13 @@ module ApiWrapperFor8x8
     include ApiWrapperFor8x8::Channel
     include ApiWrapperFor8x8::Agents
     include ApiWrapperFor8x8::Stats
+    include ApiWrapperFor8x8::Interactions
 
     RECORDS_LIMIT = 50
     MAX_TRY       = 3
-    VALID_SEGMENT = ['channels', 'agents', 'statistics']
+    VALID_SEGMENT = ['channels', 'agents', 'statistics', 'allinteractions']
+
+    OVERRIDDEN_KEYS = { "allinteractions" => "interactions" }
 
     API_URI_REGEX = /^https?:\/\/.+\.(mycontactual|8x8).com\/api/
 
@@ -88,8 +91,12 @@ module ApiWrapperFor8x8
       end
     end
 
+    def key_overrides(key)
+      return OVERRIDDEN_KEYS[key] || key
+    end
+
     def get_stat(resp, url)
-      if root_name = validate_and_extract_url(url)
+      if root_name = key_overrides(validate_and_extract_url(url))
         return [] if (resp && resp.size == 0)
         return resp[root_name][root_name[0...-1]]
       end
