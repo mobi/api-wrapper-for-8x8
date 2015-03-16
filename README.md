@@ -26,6 +26,18 @@ Or install it yourself as:
     :password => 'bar'  # your password for 8x8
 })
 ```
+By default, ApiWrapperFor8x8 uses a URI for the API of:
+```
+https://na3.mycontactual.com/api
+```
+If your point-of-contact with 8x8 has given you a different address, like ```vcc-naX.8x8.com/api```, you can enter that as an optional argument at this step, too.
+
+```ruby
+@api_connection = ApiWrapperFor8x8::Connection.new({
+    :username => 'foo',
+    :password => 'bar'
+}, "https://vcc-na10.8x8.com/api")
+```
 
 ###Params for each call
 Date range: it has to be a iso8601 format and a string with comma separated, Ex "#{(Time.now-3600*24).iso8601,Time.now.iso8601}"
@@ -36,19 +48,28 @@ It has more params, which can be seen on 8x8 site[http://www.8x8.com/Support/Bus
 
 Get a list of channels
 ```ruby
-@api_coonection.channel_list
+@api_connection.channel_list
 ```
 
-Get a list of agnets
+Get a list of agents
 ```ruby
-@api_coonection.agent_list
+@api_connection.agent_list
 ```
 
-Get a list of agnet details
+Get a list of agent details
 ```ruby
-@api_coonection.agents_details({:d => 'YOUR DATE RANGE', :tz => 'YOUR TIMEZONE'}, {FILTER OPTIONS})
+@api_connection.agents_details({:d => 'YOUR DATE RANGE', :tz => 'YOUR TIMEZONE'}, {FILTER OPTIONS})
 ```
 
+Get a list of interactions
+```ruby
+@api_connection.all_interactions
+```
+
+Get info on a specific interaction
+```ruby
+@api_connection.interaction_by_id(12345)
+```
 
 ## Contributing
 
