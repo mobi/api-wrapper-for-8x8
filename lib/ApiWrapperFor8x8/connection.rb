@@ -50,11 +50,20 @@ module ApiWrapperFor8x8
       [:username, :password].freeze
     end
 
+    def deep_stringify_keys(hash)
+      Hash.new.tap do |new_hash|
+        hash.each do |key, value|
+          new_hash[key.to_s] = value.is_a?(Hash) ? deep_stringify_keys(value) : value
+        end
+      end
+    end
+
     def get(url, params={}, filtered_opts={})
       offset = params[:n] || 1
       params[:n] = offset unless params[:n]
 
       unless params.empty?
+        params = deep_stringify_keys(params)
         url = "#{url}?#{serialize_param(params)}"
       end
 
