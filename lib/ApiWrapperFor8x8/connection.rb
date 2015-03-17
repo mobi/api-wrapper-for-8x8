@@ -66,12 +66,11 @@ module ApiWrapperFor8x8
         params = deep_stringify_keys(params)
         url = "#{url}?#{serialize_param(params)}"
       end
-
       tries  = 1
       resp   = []
       begin
         resp_tmp = get_stat(request(:get, url, {}), url)
-        resp.concat(apply_filter(resp_tmp, filtered_opts)) if resp_tmp
+        resp << apply_filter(resp_tmp, filtered_opts) if resp_tmp
         tries += 1
 
         # update the url to increase the offset

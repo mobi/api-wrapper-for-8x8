@@ -10,7 +10,7 @@ module ApiWrapperFor8x8
     # Get details of one interaction by id
     
     def interaction_by_id(id, params_options = {}, filtered_options={})
-      all_interactions(params_options, {"interaction-id" => id.to_s}).first
+      all_interactions({:"interaction-id" => id}.merge(params_options), filtered_options).first
     end
 
   end

@@ -6,12 +6,13 @@ require 'httparty'
 require 'json'
 
 require_relative '../lib/ApiWrapperFor8x8/stats.rb'
-Dir[File.dirname(__FILE__)+'/../lib/ApiWrapperFor8x8/*.rb'].each{|file| require file}
+# Dir[File.dirname(__FILE__)+'/../lib/ApiWrapperFor8x8/*.rb'].each{|file| require file}
+require_relative '../lib/ApiWrapperFor8x8.rb'
 
 RSpec.configure do |config|
   config.mock_with :rspec
 
   config.before(:each) do
-    @api = ApiWrapperFor8x8::Connection.new({:username => ENV['PHONE_SYSTEM_UN'], :password => ENV['PHONE_SYSTEM_TOKEN']})
+    @api = ApiWrapperFor8x8::Connection.new({:username => ENV['PHONE_SYSTEM_UN'], :password => ENV['PHONE_SYSTEM_TOKEN']}, ENV['BASE_URI'])
   end
 end
